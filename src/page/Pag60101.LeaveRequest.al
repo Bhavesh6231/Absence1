@@ -39,6 +39,23 @@ page 60101 "Leave Request"
                     ToolTip = 'Specifies the value of the Comments field.', Comment = '%';
                     MultiLine = true;
                 }
+                field("Leave Entitlement Al"; Rec."Leave Entitlement Al")
+                {
+                    ToolTip = 'Specifies the value of the Leave Entitlement Al field.', Comment = '%';
+                }
+                field("Leave Entitlement OL"; Rec."Leave Entitlement OL")
+                {
+                    ToolTip = 'Specifies the value of the Leave Entitlement OL field.', Comment = '%';
+                }
+                field("Al Balance"; Rec."Al Balance")
+                {
+                    ToolTip = 'Specifies the value of the Al Balance field.', Comment = '%';
+                }
+                field("OL Balance"; Rec."OL Balance")
+                {
+                    ToolTip = 'Specifies the value of the OL Balance field.', Comment = '%';
+                }
+                
             }
         }
     }
@@ -50,48 +67,24 @@ page 60101 "Leave Request"
             {
                 ApplicationArea = All;
                 Caption = 'Submit';
+                Promoted = true;
+                PromotedCategory = Process;
                 trigger OnAction()
                 var
-                    LeaveEntRec : Record "Leave Entry";
+                    LeaveManagement : Codeunit "Leave Management";
                 begin
-                    LeaveEntRec.Init();
-                    LeaveEntRec."Entry No." := 0;
-                    LeaveEntRec.Employee := Rec.Employee;
-                    LeaveEntRec."Employee Name" := Rec."Employee Name";
-                    LeaveEntRec."Leave Type" := Rec."Leave Type";
-                    LeaveEntRec."Start Date" := Rec."Start Date";
-                    LeaveEntRec."No. of Days" := Rec."No. of Days";
-                    LeaveEntRec."Request Date" := Rec."Request Date";
-                    LeaveEntRec."Request Time" := Rec."Request Time";
-                    LeaveEntRec.Comments := Rec.Comments;
-                    LeaveEntRec."Stand-in" := Rec."Stand-in";
-                    LeaveEntRec.Insert();
-
-                    Message('Leave Request submitted successfully.');
+                    LeaveManagement.SubmitLeaveRequest(Rec);
                 end;
             }
-            action("Leave types")
+            action("Leave Entry")
             {
-                Caption = 'Leave Type';
                 ApplicationArea = All;
-                Image = Absence;
+                Caption = 'Leave Entry';
                 Promoted = true;
                 PromotedCategory = Process;
-                trigger OnAction()
-                var
-                    LeaveTypePag : Page "Leave Type";
-                begin
-                    LeaveTypePag.Editable := false;
-                    LeaveTypePag.Run();
-                end;
-            }
-            action("Leave Entitlement")
-            {
-                Promoted = true;
-                PromotedCategory = Process;
-                RunObject = page "Leave Entitlement";
-                RunPageLink = Employee = field(Employee);
                 Image = List;
+                RunObject = page "Leave Entry";
+                RunPageLink = Employee = field(Employee);
             }
         }
     }
@@ -102,6 +95,7 @@ page 60101 "Leave Request"
     trigger OnOpenPage()
     begin
         if UserMap.Get(UserId()) then begin
+            Rec.Init();
             Rec.Employee := UserMap.Employee;
             Rec.Insert();
             Rec.SetRange(Employee,UserMap.Employee);

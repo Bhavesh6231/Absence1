@@ -35,4 +35,18 @@ page 60102 "Leave Entitlement"
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        if UserMap.Get(UserId()) then begin
+            Rec.Employee := UserMap.Employee;
+            Rec.Init();
+            Rec.Insert();
+            Rec.SetRange(Employee,UserMap.Employee);
+            rec.CalcFields("Employee Name");
+        end else
+            Error('User is not mapped with Employee. You cannot place a leave request.');
+    end;
+
+    var
+        UserMap : Record "User Employee Mapping";
 }
