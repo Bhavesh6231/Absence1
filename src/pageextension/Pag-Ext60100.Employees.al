@@ -11,7 +11,7 @@ pageextension 60100 Employees extends "Employee List"
                 Image = View;
                 trigger OnAction()
                 begin
-                    Page.Run(Page::"Leave Entry");
+                    Page.Run(Page::"Leave Request Entry");
                 end;
             }
         }

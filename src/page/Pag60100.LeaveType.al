@@ -30,7 +30,7 @@ page 60100 "Leave Type"
     {
         area(Processing)
         {
-            action("Leave Entitlement")
+            action("Leave Balance")
             {
                 Caption = 'Leave Entitlement';
                 ApplicationArea = All;
@@ -51,18 +51,18 @@ page 60100 "Leave Type"
                 // end;
                 trigger OnAction()
                 begin
-                    Page.Run(Page::"Leave Entitlement");
+                    Page.Run(Page::"Leave Balance");
                 end;
             }
         }
     }
-    trigger OnDeleteRecord(): Boolean
-    var
-        LeaveEntRec: Record "Leave Entitlement";
-    begin
-        LeaveEntRec.SetRange("Leave Type",Rec.Code);
-        if LeaveEntRec.FindFirst() then 
-            Error('You Cannot delete Leave Type because it is used in Leave Entitlement.');
-        exit(true);
-    end;
+    // trigger OnDeleteRecord(): Boolean
+    // var
+    //     LeaveEntRec: Record "Leave Entitlement";
+    // begin
+    //     LeaveEntRec.SetRange("Leave Type",Rec.Code);
+    //     if LeaveEntRec.FindFirst() then 
+    //         Error('You Cannot delete Leave Type because it is used in Leave Entitlement.');
+    //     exit(true);
+    // end;
 }

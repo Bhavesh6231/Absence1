@@ -1,9 +1,10 @@
-page 60103 "Leave Entry"
+page 60103 "Leave Request Entry"
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
-    SourceTable = "Leave Entry";
+    SourceTable = "Leave Request Entry";
+    Editable = false;
     
     layout
     {
@@ -72,6 +73,19 @@ page 60103 "Leave Entry"
                 {
                     ApplicationArea = All;
                 }
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Leave Entry")
+            {
+                trigger OnAction()
+                begin
+                    
+                end;
             }
         }
     }

@@ -18,25 +18,45 @@ table 60100 "Leave Type"
         {
             FieldClass = FlowFilter;
         }
-        field(4; "Date Filter"; Date)
+        field(4; "Period Filter"; Date)
         {
             FieldClass = FlowFilter;
         }
-        field(5;"Approved Leaves"; Decimal)
+        field(5; "Max Carry Forward";Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(6;Description;Text[150])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(7; "Carried Forward"; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),"Start Date" = field("Date Filter"),"End Date" = field("Date Filter")));
+            CalcFormula = sum("Leave Entry"."No. of Days" where(Type = const("Carried Forward")));
         }
-        field(6; "Max Carry Forward";Integer)
+        field(8; Entitlement; Integer)
+        {
+            DataClassification = ToBeClassified;
+
+        }
+        field(9; "Approved Leaves"; Integer)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
+        }
+        field(10; "Leave Requested"; Integer)
+        {
+            FieldClass = FlowField;
+            CalcFormula = sum("Leave Request"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code)));
+        }
+        field(11; "Balance"; Integer)
         {
             DataClassification = ToBeClassified;
         }
-        field(7;Description;Text[150])
-        {
-            DataClassification = ToBeClassified;
-        }
+
     }
-    
+
     keys
     {
         key(PK; Code)

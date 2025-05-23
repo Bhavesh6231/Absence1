@@ -2,7 +2,7 @@ codeunit 60101 "Leave Management"
 {
     procedure SubmitLeaveRequest(var LeaveRequest: Record "Leave Request")
     var
-        LeaveEntRec : Record "Leave Entry";
+        LeaveEntRec : Record "Leave Request Entry";
     begin
         LeaveEntRec.Init();
         LeaveEntRec."Entry No." := 0;

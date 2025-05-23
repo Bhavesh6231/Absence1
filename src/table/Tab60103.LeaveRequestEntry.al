@@ -1,4 +1,4 @@
-table 60103 "Leave Entry"
+table 60103 "Leave Request Entry"
 {
     DataClassification = ToBeClassified;
     
@@ -53,9 +53,11 @@ table 60103 "Leave Entry"
         {
             DataClassification = ToBeClassified;
         }
-        field(9; "No. of Days"; Integer)
+        field(9; "No. of Days"; Decimal)
         {
             DataClassification = ToBeClassified;
+            DecimalPlaces = 0:1;
+            MinValue = 0.5;
         }
         field(10; Comments; Text[200])
         {

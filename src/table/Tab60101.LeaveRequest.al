@@ -26,9 +26,11 @@ table 60101 "Leave Request"
         {
             DataClassification = ToBeClassified;
         }
-        field(6; "No. of Days"; Integer)
+        field(6; "No. of Days"; Decimal)
         {
             DataClassification = ToBeClassified;
+            DecimalPlaces = 0:1;
+            MinValue = 0.5;
         }
         field(7; Comments; Text[50])
         {
@@ -39,24 +41,24 @@ table 60101 "Leave Request"
             DataClassification = ToBeClassified;
             TableRelation = Employee;
         }
-        field(9; "Leave Entitlement Al"; Integer)
-        {
-            FieldClass = FlowField;
-            //CalcFormula = sum 
-        }  
-        field(10; "Leave Entitlement OL"; Integer)
-        {
-            FieldClass = FlowField;
-        }
-        field(11; "Al Balance"; Integer)
-        {
-            FieldClass = FlowField;
-        
-        }
-        field(12;"OL Balance"; Integer)
-        {
-            FieldClass = FlowField;
-        }
+        // field(9; "Leave Entitlement Al"; Integer)
+        // {
+        //     FieldClass = FlowField;
+        //     CalcFormula = count("Leave Entitlement" where("Leave Type" = const('AL')));
+        // }  
+        // field(10; "Leave Entitlement OL"; Integer)
+        // {
+        //     FieldClass = FlowField;
+        //     CalcFormula = count("Leave Entitlement" where("Leave Type" = const('OL')));
+        // }
+        // field(11; "Al Balance"; Integer)
+        // {
+        //    DataClassification = ToBeClassified;            
+        // }
+        // field(12;"OL Balance"; Integer)
+        // {
+        //     DataClassification = ToBeClassified;
+        // }
     }
     
     keys
@@ -66,4 +68,53 @@ table 60101 "Leave Request"
             Clustered = true;
         }
     } 
+    // local procedure CalculateALBalance(): Integer
+    // var
+    //     LeaveTypeRec: Record "Leave Type";
+    //     LeaveEntryRec: Record "Leave Request Entry";
+    //     TotalLeave: Integer;
+    //     UsedLeave: Integer;
+    // begin
+    //     LeaveTypeRec.SetRange(Code,'AL');
+    //     if LeaveTypeRec.FindFirst() then 
+    //         TotalLeave := LeaveTypeRec."Number of Days";
+        
+    //     LeaveEntryRec.SetRange("Leave Type",'AL');
+    //     LeaveEntryRec.SetRange(Employee,Rec.Employee);
+    //     LeaveEntryRec.SetRange(Status, LeaveEntryRec.Status::Approved);
+    //     if LeaveEntryRec.FindSet() then
+    //         repeat
+    //             UsedLeave += LeaveEntryRec."No. of Days";
+    //         until LeaveEntryRec.Next() = 0;
+        
+    //     exit(TotalLeave - UsedLeave);
+            
+    // end;
+    // local procedure CalculateOLBalance(): Integer
+    // var
+    //     LeaveTypeRec: Record "Leave Type";
+    //     LeaveEntryRec: Record "Leave Entry";
+    //     TotalLeave: Integer;
+    //     UsedLeave: Integer;
+    // begin
+    //     LeaveTypeRec.SetRange(Code,'OL');
+    //     if LeaveTypeRec.FindFirst() then
+    //         TotalLeave := LeaveTypeRec."Number of Days";
+        
+    //     LeaveEntryRec.SetRange("Leave Type",'OL');
+    //     LeaveEntryRec.SetRange(Employee,Employee);
+    //     LeaveEntryRec.SetRange(Status, LeaveEntryRec.Status::Approved);
+    //     if LeaveEntryRec.FindSet() then
+    //         repeat
+    //             UsedLeave += LeaveEntryRec."No. of Days";
+    //         until LeaveEntryRec.Next() = 0;
+        
+    //     exit(TotalLeave - UsedLeave);
+
+    // end;
+    // trigger OnModify()
+    // begin
+    //     "Al Balance" := CalculateALBalance();
+    //     "OL Balance" := CalculateOLBalance();
+    // end;
 }

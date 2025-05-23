@@ -39,23 +39,27 @@ page 60101 "Leave Request"
                     ToolTip = 'Specifies the value of the Comments field.', Comment = '%';
                     MultiLine = true;
                 }
-                field("Leave Entitlement Al"; Rec."Leave Entitlement Al")
-                {
-                    ToolTip = 'Specifies the value of the Leave Entitlement Al field.', Comment = '%';
-                }
-                field("Leave Entitlement OL"; Rec."Leave Entitlement OL")
-                {
-                    ToolTip = 'Specifies the value of the Leave Entitlement OL field.', Comment = '%';
-                }
-                field("Al Balance"; Rec."Al Balance")
-                {
-                    ToolTip = 'Specifies the value of the Al Balance field.', Comment = '%';
-                }
-                field("OL Balance"; Rec."OL Balance")
-                {
-                    ToolTip = 'Specifies the value of the OL Balance field.', Comment = '%';
-                }
+                // field("Leave Entitlement Al"; Rec."Leave Entitlement Al")
+                // {
+                //     ToolTip = 'Specifies the value of the Leave Entitlement Al field.', Comment = '%';
+                // }
+                // field("Leave Entitlement OL"; Rec."Leave Entitlement OL")
+                // {
+                //     ToolTip = 'Specifies the value of the Leave Entitlement OL field.', Comment = '%';
+                // }
+                // field("Al Balance"; Rec."Al Balance")
+                // {
+                //     ToolTip = 'Specifies the value of the Al Balance field.', Comment = '%';
+                // }
+                // field("OL Balance"; Rec."OL Balance")
+                // {
+                //     ToolTip = 'Specifies the value of the OL Balance field.', Comment = '%';
+                // }
                 
+            }
+            part("Leave Balance"; "Leave Balance")
+            {
+                Editable = false;
             }
         }
     }
@@ -83,7 +87,7 @@ page 60101 "Leave Request"
                 Promoted = true;
                 PromotedCategory = Process;
                 Image = List;
-                RunObject = page "Leave Entry";
+                RunObject = page "Leave Request Entry";
                 RunPageLink = Employee = field(Employee);
             }
         }
@@ -102,6 +106,7 @@ page 60101 "Leave Request"
             rec.CalcFields("Employee Name");
         end else
             Error('User is not mapped with Employee. You cannot place a leave request.');
+        
     end;
 
     var
