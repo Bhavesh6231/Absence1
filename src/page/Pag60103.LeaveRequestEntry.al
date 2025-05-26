@@ -40,10 +40,6 @@ page 60103 "Leave Request Entry"
                 field("Start Date";Rec."Start Date")
                 {
                     ApplicationArea = All;
-                    trigger OnValidate()
-                    begin
-                        Rec."End Date" := CalculateEndDate(Rec."Start Date",Rec."No. of Days");
-                    end;
                 }
                 field("End Date";Rec."End Date")
                 {
@@ -52,10 +48,6 @@ page 60103 "Leave Request Entry"
                 field("No. of Days";Rec."No. of Days")
                 {
                     ApplicationArea = All;
-                    trigger OnValidate()
-                    begin
-                        Rec."End Date" := CalculateEndDate(Rec."Start Date",Rec."No. of Days");
-                    end;
                 }
                 field(Comments;Rec.Comments)
                 {
@@ -82,39 +74,18 @@ page 60103 "Leave Request Entry"
         {
             action("Leave Entry")
             {
+                ApplicationArea = All;
+                Image = List;
+                Promoted = true;
+                PromotedCategory = Process;
                 trigger OnAction()
+                var
+                    LeaveEntryRec: Record "Leave Entry";
                 begin
-                    
+                    LeaveEntryRec.SetRange("Leave Request Entry No.",Rec."Entry No.");
+                    Page.RunModal(Page:: "Leave Entry", LeaveEntryRec);
                 end;
             }
         }
     }
-    local procedure CalculateEndDate(StartDate: Date; NumberOfDays: Integer): Date
-    var
-        Calendar : Record "Customized Calendar Change";
-        CurrentDate : Date;
-        WorkingDays : Integer;
-    begin
-        if NumberOfDays <= 0 then
-            exit(StartDate);
-
-        WorkingDays := 0;
-        CurrentDate := StartDate;
-
-        repeat
-            Calendar.Reset();
-            Calendar.SetRange(Date, CurrentDate);
-            Calendar.SetRange(Nonworking,true);
-
-            if not Calendar.FindFirst() then
-                WorkingDays += 1;
-
-            if WorkingDays < NumberofDays then
-                CurrentDate := CurrentDate + 1;
-
-        Until WorkingDays >= NumberofDays;
-
-        exit(CurrentDate);
-    end;
-
 }

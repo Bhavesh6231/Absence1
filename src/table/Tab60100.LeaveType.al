@@ -30,29 +30,35 @@ table 60100 "Leave Type"
         {
             DataClassification = ToBeClassified;
         }
-        field(7; "Carried Forward"; Integer)
+        field(7; "Carried Forward"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Entry"."No. of Days" where(Type = const("Carried Forward")));
+            DecimalPlaces = 0:1;
+            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(code),Employee = field("Employee Filter"),Type = const("Carried Forward"),"Start Date" = field("Period Filter"), "End Date" = field("Period Filter")));
         }
-        field(8; Entitlement; Integer)
-        {
-            DataClassification = ToBeClassified;
-
-        }
-        field(9; "Approved Leaves"; Integer)
+        field(8; Entitlement; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
+            DecimalPlaces = 0:1;
+            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"), Type = const(Entitlement), "Start Date" = field("Period Filter"), "End Date" = field("Period Filter")));
         }
-        field(10; "Leave Requested"; Integer)
+        field(9; "Approved Leaves"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Leave Request"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code)));
+            DecimalPlaces = 0:1;
+            CalcFormula = - sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
         }
-        field(11; "Balance"; Integer)
+        field(10; "Leave Requested"; Decimal)
         {
-            DataClassification = ToBeClassified;
+            FieldClass = FlowField;
+            DecimalPlaces = 0:1;
+            CalcFormula = - sum("Leave Request Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code)));
+        }
+        field(11; "Balance"; Decimal)
+        {
+            FieldClass = FlowField;
+            DecimalPlaces = 0:1;
+            CalcFormula = sum("Leave Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
         }
 
     }

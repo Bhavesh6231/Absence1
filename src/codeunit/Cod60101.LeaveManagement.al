@@ -10,7 +10,7 @@ codeunit 60101 "Leave Management"
         LeaveEntRec."Employee Name" := LeaveRequest."Employee Name";
         LeaveEntRec."Leave Type" := LeaveRequest."Leave Type";
         LeaveEntRec."Start Date" := LeaveRequest."Start Date";
-        LeaveEntRec."No. of Days" := LeaveRequest."No. of Days";
+        LeaveEntRec."No. of Days" := - LeaveRequest."No. of Days";
         LeaveEntRec.Comments := LeaveRequest.Comments;
         LeaveEntRec."Stand-in" := LeaveRequest."Stand-in";
         LeaveEntRec."Request Date" := Today();

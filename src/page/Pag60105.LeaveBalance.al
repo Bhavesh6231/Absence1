@@ -3,13 +3,16 @@ page 60105 "Leave Balance"
     PageType = CardPart;
     ApplicationArea = All;
     SourceTable = "Leave Type";
+
     
     layout
     {
         area(Content)
         {
-            group(GroupName)
+            repeater(General)
             {
+                
+                ShowCaption = false;
                 field("Code"; Rec."Code")
                 {
                     ToolTip = 'Specifies the value of the Code field.', Comment = '%';
@@ -41,22 +44,4 @@ page 60105 "Leave Balance"
             }
         }
     }
-    
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                
-                trigger OnAction()
-                begin
-                    
-                end;
-            }
-        }
-    }
-    
-    var
-        myInt: Integer;
 }

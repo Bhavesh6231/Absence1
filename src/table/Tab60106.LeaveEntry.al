@@ -1,14 +1,16 @@
     table 60106 "Leave Entry"
     {
         DataClassification = ToBeClassified;
+        LookupPageId = "Leave Entry";
+        DrillDownPageId = "Leave Entry";
         
         fields
         {
-            field(1;"Entry No."; Code[20])
+            field(1;"Entry No."; Integer)
             {
                 DataClassification = ToBeClassified;
             }
-            field(2; "Leave Request Entry No."; Code[20])
+            field(2; "Leave Request Entry No."; Integer)
             {
                 DataClassification = ToBeClassified;
                 TableRelation = "Leave Request Entry";
@@ -35,9 +37,10 @@
             {
                 DataClassification = ToBeClassified;
             }
-            field(8; "No. of Days"; Integer)
+            field(8; "No. of Days"; Decimal)
             {
                 DataClassification = ToBeClassified;
+                DecimalPlaces = 0:1;
             }
             field(9; "Leave Type"; Code[20])
             {
@@ -48,9 +51,7 @@
             {
                 DataClassification = ToBeClassified;
             }
-
         }
-        
         keys
         {
             key(PK; "Entry No.")
@@ -58,33 +59,4 @@
                 Clustered = true;
             }
         }
-        
-        fieldgroups
-        {
-            // Add changes to field groups here
-        }
-        
-        var
-            myInt: Integer;
-        
-        trigger OnInsert()
-        begin
-            
-        end;
-        
-        trigger OnModify()
-        begin
-            
-        end;
-        
-        trigger OnDelete()
-        begin
-            
-        end;
-        
-        trigger OnRename()
-        begin
-            
-        end;
-        
-    }
+}
