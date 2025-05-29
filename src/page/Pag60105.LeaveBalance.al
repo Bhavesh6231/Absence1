@@ -3,6 +3,7 @@ page 60105 "Leave Balance"
     PageType = CardPart;
     ApplicationArea = All;
     SourceTable = "Leave Type";
+    DataCaptionFields = "Period Filter";
 
     
     layout
@@ -36,6 +37,10 @@ page 60105 "Leave Balance"
                 field("Leave Requested"; Rec."Leave Requested")
                 {
                     ToolTip = 'Specifies the value of the Leave Requested field.', Comment = '%';
+                }
+                field("Leave Rejected"; Rec."Leave Rejected")
+                {
+                    ToolTip = 'Specifies the value of the Leave Rejected field.', Comment = '%';
                 }
                 field(Balance; Rec.Balance)
                 {

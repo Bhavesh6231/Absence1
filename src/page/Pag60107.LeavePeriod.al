@@ -21,10 +21,6 @@ page 60107 "Leave Period"
                 }
             }
         }
-        area(Factboxes)
-        {
-            
-        }
     }
     
     actions

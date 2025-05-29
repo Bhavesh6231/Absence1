@@ -48,10 +48,6 @@ table 60103 "Leave Request Entry"
         field(7; "Start Date"; Date)
         {
             DataClassification = ToBeClassified;
-            trigger OnValidate()
-            begin
-                "End Date" := CalculateEndDate(Rec."Start Date",Rec."No. of Days");
-            end;
         }
         field(8; "End Date"; Date)
         {
@@ -62,14 +58,6 @@ table 60103 "Leave Request Entry"
             DataClassification = ToBeClassified;
             DecimalPlaces = 0:1;
             MinValue = 0.5;
-
-            trigger OnValidate()
-            begin
-                if ("No. of Days" MOD 0.5) <> 0 then
-                    Error(' No. of days must be entered in muntiple of 0.5');
-
-                "End Date" := CalculateEndDate(Rec."Start Date",Rec."No. of Days");
-            end;
         }
         field(10; Comments; Text[200])
         {
@@ -106,32 +94,5 @@ table 60103 "Leave Request Entry"
         if "Request Time" = 0T then begin
             "Request Time" := Time;
         end;
-    end;
-    procedure CalculateEndDate(StartDate: Date; NumberOfDays: Decimal): Date
-    var
-        Calendar : Record "Customized Calendar Change";
-        CurrentDate : Date;
-        WorkingDays : Decimal;
-    begin
-        if NumberOfDays <= 0 then
-            exit(StartDate);
-
-        WorkingDays := 0;
-        CurrentDate := StartDate;
-
-        repeat
-            Calendar.Reset();
-            Calendar.SetRange(Date, CurrentDate);
-            Calendar.SetRange(Nonworking,true);
-
-            if not Calendar.FindFirst() then
-                WorkingDays += 1;
-
-            if WorkingDays < NumberofDays then
-                CurrentDate := CurrentDate + 1;
-
-        Until WorkingDays >= NumberofDays;
-
-        exit(CurrentDate);
     end;
 }

@@ -9,6 +9,8 @@
             field(1;"Entry No."; Integer)
             {
                 DataClassification = ToBeClassified;
+                AutoIncrement = true;
+                Editable = false;
             }
             field(2; "Leave Request Entry No."; Integer)
             {

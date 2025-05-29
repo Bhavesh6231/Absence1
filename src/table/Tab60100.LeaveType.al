@@ -18,7 +18,7 @@ table 60100 "Leave Type"
         {
             FieldClass = FlowFilter;
         }
-        field(4; "Period Filter"; Date)
+        field(4; "Period Filter"; Code[20])
         {
             FieldClass = FlowFilter;
         }
@@ -34,31 +34,43 @@ table 60100 "Leave Type"
         {
             FieldClass = FlowField;
             DecimalPlaces = 0:1;
-            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(code),Employee = field("Employee Filter"),Type = const("Carried Forward"),"Start Date" = field("Period Filter"), "End Date" = field("Period Filter")));
+            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(code),Employee = field("Employee Filter"),Type = const("Carried Forward"),Period = field("Period Filter")));
+            BlankZero = true;
         }
         field(8; Entitlement; Decimal)
         {
             FieldClass = FlowField;
             DecimalPlaces = 0:1;
-            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"), Type = const(Entitlement), "Start Date" = field("Period Filter"), "End Date" = field("Period Filter")));
+            CalcFormula = sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"), Type = const(Entitlement),Period = field("Period Filter")));
+            BlankZero = true;
         }
         field(9; "Approved Leaves"; Decimal)
         {
             FieldClass = FlowField;
             DecimalPlaces = 0:1;
-            CalcFormula = - sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
+            CalcFormula = - sum("Leave Entry"."No. of Days" where("Leave Type" = field(Code),Employee = field("Employee Filter"),Status = const(Approved),Type = const(Leave),Period = field("Period Filter")));
+            BlankZero = true;
         }
         field(10; "Leave Requested"; Decimal)
         {
             FieldClass = FlowField;
             DecimalPlaces = 0:1;
-            CalcFormula = - sum("Leave Request Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code)));
+            CalcFormula = - sum("Leave Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code), Status = const(Requested),Period = field("Period Filter")));
+            BlankZero = true;
         }
-        field(11; "Balance"; Decimal)
+        field(11; "Leave Rejected"; Decimal)
         {
             FieldClass = FlowField;
             DecimalPlaces = 0:1;
-            CalcFormula = sum("Leave Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code),"Start Date" = field("Period Filter"),"End Date" = field("Period Filter")));
+            CalcFormula = sum("Leave Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code),Status = const(Rejected), Period = field("Period Filter")));
+            BlankZero = true;
+        }
+        field(12; "Balance"; Decimal)
+        {
+            FieldClass = FlowField;
+            DecimalPlaces = 0:1;
+            CalcFormula = sum("Leave Entry"."No. of Days" where(Employee = field("Employee Filter"),"Leave Type" = field(Code), Status = filter(Approved|Requested),Period = field("Period Filter")));
+            BlankZero = true;
         }
 
     }

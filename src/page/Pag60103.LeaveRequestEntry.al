@@ -5,7 +5,8 @@ page 60103 "Leave Request Entry"
     UsageCategory = Lists;
     SourceTable = "Leave Request Entry";
     Editable = false;
-    
+    SourceTableView = sorting("Entry No.") order(descending);
+
     layout
     {
         area(Content)
