@@ -166,4 +166,13 @@ table 60101 "Leave Request"
         if LeavePeriodRec.FindLast() then;
         exit(LeavePeriodRec.Code);
     end;
+     
+    procedure OpenPage(Emplo : Code[20])
+    var
+        LeaveReqEnt : Record "Leave Request Entry";
+    begin
+        LeaveReqEnt.SetRange(Employee,Rec.Employee);
+                    if LeaveReqEnt.FindLast() then
+                        PAGE.Run(PAGE::"Leave Request Entry", LeaveReqEnt);
+    end;
 }

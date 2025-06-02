@@ -87,6 +87,22 @@ page 60103 "Leave Request Entry"
                     Page.RunModal(Page:: "Leave Entry", LeaveEntryRec);
                 end;
             }
+             action("Leave Request Log")
+            {
+                ApplicationArea = All;
+                Caption = 'Leave Request Log';
+                Promoted = true;
+                PromotedCategory = Process;
+                Image = List;
+                trigger OnAction()
+                var 
+                    LeaveReqLog: Record "Leave Request Log";
+                begin
+                    LeaveReqLog.SetRange("Leave Request Entry No.",Rec."Entry No.");
+                    Page.Run(Page:: "Leave Request Log");
+                end;
+                
+            }
         }
     }
 }

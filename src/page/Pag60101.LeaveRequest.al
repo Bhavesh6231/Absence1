@@ -62,25 +62,10 @@ page 60101 "Leave Request"
                 Promoted = true;
                 PromotedCategory = Process;
                 trigger OnAction()
-                var 
-                    LeaveTypeRec : Record "Leave Type";
-                    LeaveReqEnt : Record "Leave Request Entry";
-                    LeaveReq : Record "Leave Request";
                 begin
-                    Rec.TestField("Stand-in");
-                    LeaveTypeRec.Get(Rec."Leave Type");
-                    if Rec.Comments = '' then begin
-                        if Rec."Start Date" = Rec."End Date" then
-                            Rec.Comments := StrSubstNo('%1: %2',LeaveTypeRec.Description,Rec."Start Date")
-                        else 
-                            Rec.Comments := StrSubstNo('%1: %2 to %3 : %4 days',LeaveTypeRec.Description,Rec."Start Date",Rec."End Date",Rec."No. of Days");
-                    end;
             
                     LeaveManagement.SubmitLeaveRequest(Rec);
-
-                    LeaveReqEnt.SetRange(Employee,Rec.Employee);
-                    if LeaveReqEnt.FindLast() then
-                        PAGE.Run(PAGE::"Leave Request Entry", LeaveReqEnt);
+                    Rec.OpenPage(Rec.Employee);
 
                     CurrPage.Close();
                 end;
@@ -94,19 +79,6 @@ page 60101 "Leave Request"
                 Image = List;
                 RunObject = page "Leave Entry";
                 RunPageLink = Employee = field(Employee);
-            }
-            action("Leave Request Log")
-            {
-                ApplicationArea = All;
-                Caption = 'Leave Request Log';
-                Promoted = true;
-                PromotedCategory = Process;
-                Image = List;
-                trigger OnAction()
-                begin
-                    Page.Run(Page:: "Leave Request Log");
-                end;
-                
             }
         }
     }
